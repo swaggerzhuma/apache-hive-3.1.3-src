@@ -18,16 +18,20 @@
 package org.apache.hive.spark.counter;
 
 import java.io.Serializable;
-
-import org.apache.spark.Accumulator;
-import org.apache.spark.AccumulatorParam;
+//已弃用
+/*import org.apache.spark.Accumulator;
+import org.apache.spark.AccumulatorParam;*/
+//新版依赖
+import  org.apache.spark.util.LongAccumulator;
 import org.apache.spark.api.java.JavaSparkContext;
 
 public class SparkCounter implements Serializable {
 
   private String name;
   private String displayName;
-  private Accumulator<Long> accumulator;
+  //已弃用
+//  private Accumulator<Long> accumulator;
+  private  LongAccumulator  accumulator;
 
   // Values of accumulators can only be read on the SparkContext side. This field is used when
   // creating a snapshot to be sent to the RSC client.
@@ -55,9 +59,16 @@ public class SparkCounter implements Serializable {
 
     this.name = name;
     this.displayName = displayName;
-    LongAccumulatorParam longParam = new LongAccumulatorParam();
+    //已弃用
+//    LongAccumulatorParam longParam = new LongAccumulatorParam();
     String accumulatorName = groupName + "_" + name;
-    this.accumulator = sparkContext.accumulator(initValue, accumulatorName, longParam);
+    //已弃用
+//    this.accumulator = sparkContext.accumulator(initValue, accumulatorName, longParam);
+    // 修改源码 更改累加器的获取方式
+    this.accumulator  =  JavaSparkContext.toSparkContext(sparkContext).longAccumulator(accumulatorName);
+    // 修改源码 添加参数值
+    this.accumulator.setValue(initValue);
+
   }
 
   public long getValue() {
@@ -88,7 +99,8 @@ public class SparkCounter implements Serializable {
     return new SparkCounter(name, displayName, accumulator.value());
   }
 
-  class LongAccumulatorParam implements AccumulatorParam<Long> {
+  //已弃用
+/*  class LongAccumulatorParam implements AccumulatorParam<Long> {
 
     @Override
     public Long addAccumulator(Long t1, Long t2) {
@@ -104,6 +116,6 @@ public class SparkCounter implements Serializable {
     public Long zero(Long initialValue) {
       return 0L;
     }
-  }
+  }*/
 
 }
