@@ -31,7 +31,7 @@ import org.apache.hadoop.hive.conf.HiveConf;
 import org.apache.hadoop.hive.ql.plan.ColStatistics.Range;
 import org.apache.hadoop.hive.serde.serdeConstants;
 import org.junit.Test;
-//修改源码 更换依赖
+//更改spark版本 需要更换依赖
 //import org.spark_project.guava.collect.Sets;
 import org.sparkproject.guava.collect.Sets;
 

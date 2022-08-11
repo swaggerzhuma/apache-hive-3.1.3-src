@@ -21,7 +21,7 @@ import java.io.Serializable;
 //已弃用
 /*import org.apache.spark.Accumulator;
 import org.apache.spark.AccumulatorParam;*/
-//新版依赖
+//更改spark版本 新依赖
 import  org.apache.spark.util.LongAccumulator;
 import org.apache.spark.api.java.JavaSparkContext;
 
@@ -64,9 +64,10 @@ public class SparkCounter implements Serializable {
     String accumulatorName = groupName + "_" + name;
     //已弃用
 //    this.accumulator = sparkContext.accumulator(initValue, accumulatorName, longParam);
-    // 修改源码 更改累加器的获取方式
-    this.accumulator  =  JavaSparkContext.toSparkContext(sparkContext).longAccumulator(accumulatorName);
-    // 修改源码 添加参数值
+    // 更改spark版本 更改累加器的获取方式
+    this.accumulator = sparkContext.sc().longAccumulator(accumulatorName);
+//    this.accumulator  =  JavaSparkContext.toSparkContext(sparkContext).longAccumulator(accumulatorName);
+    // 更改spark版本 添加参数值
     this.accumulator.setValue(initValue);
 
   }

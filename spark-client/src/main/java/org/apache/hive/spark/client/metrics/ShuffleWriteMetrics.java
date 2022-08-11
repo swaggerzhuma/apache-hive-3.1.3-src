@@ -47,7 +47,7 @@ public class ShuffleWriteMetrics implements Serializable {
   }
 
   public ShuffleWriteMetrics(TaskMetrics metrics) {
-    //已弃用
+    //更改spark版本 需要修改这里
 /*    this(metrics.shuffleWriteMetrics().shuffleBytesWritten(),
       metrics.shuffleWriteMetrics().shuffleWriteTime());*/
     this(metrics.shuffleWriteMetrics().bytesWritten(),
