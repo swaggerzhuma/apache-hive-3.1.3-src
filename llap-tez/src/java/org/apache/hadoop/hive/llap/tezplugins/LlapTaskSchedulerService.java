@@ -744,15 +744,22 @@ public class LlapTaskSchedulerService extends TaskScheduler {
       }, 10000L, TimeUnit.MILLISECONDS);
 
       nodeEnablerFuture = nodeEnabledExecutor.submit(nodeEnablerCallable);
-      Futures.addCallback(nodeEnablerFuture, new LoggingFutureCallback("NodeEnablerThread", LOG));
+      //更换guava版本为27.0-jre 需要修改这里
+//      Futures.addCallback(nodeEnablerFuture, new LoggingFutureCallback("NodeEnablerThread", LOG));
+      Futures.addCallback(nodeEnablerFuture, new LoggingFutureCallback("NodeEnablerThread", LOG),MoreExecutors.directExecutor());
 
       delayedTaskSchedulerFuture =
           delayedTaskSchedulerExecutor.submit(delayedTaskSchedulerCallable);
       Futures.addCallback(delayedTaskSchedulerFuture,
-          new LoggingFutureCallback("DelayedTaskSchedulerThread", LOG));
+            //更换guava版本为27.0-jre 需要修改这里
+//          new LoggingFutureCallback("DelayedTaskSchedulerThread", LOG));
+              new LoggingFutureCallback("DelayedTaskSchedulerThread", LOG),MoreExecutors.directExecutor());
+
 
       schedulerFuture = schedulerExecutor.submit(schedulerCallable);
-      Futures.addCallback(schedulerFuture, new LoggingFutureCallback("SchedulerThread", LOG));
+      //更换guava版本为27.0-jre 需要修改这里
+//      Futures.addCallback(schedulerFuture, new LoggingFutureCallback("SchedulerThread", LOG));
+      Futures.addCallback(schedulerFuture, new LoggingFutureCallback("SchedulerThread", LOG),MoreExecutors.directExecutor());
 
       registry.start();
       registry.registerStateChangeListener(new NodeStateChangeListener());

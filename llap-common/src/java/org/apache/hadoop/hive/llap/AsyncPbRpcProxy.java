@@ -171,7 +171,9 @@ public abstract class AsyncPbRpcProxy<ProtocolType, TokenType extends TokenIdent
           CallableRequest<T, U> request, LlapNodeId nodeId) {
         ListenableFuture<U> future = executor.submit(request);
         Futures.addCallback(future, new ResponseCallback<U>(
-            request.getCallback(), nodeId, this));
+                //更换guava版本为27.0-jre 需要修改这里
+//            request.getCallback(), nodeId, this));
+                request.getCallback(), nodeId, this),MoreExecutors.directExecutor());
       }
 
       @VisibleForTesting
@@ -283,7 +285,9 @@ public abstract class AsyncPbRpcProxy<ProtocolType, TokenType extends TokenIdent
           LOG.warn("RequestManager shutdown with error", t);
         }
       }
-    });
+      //更换guava版本为27.0-jre 需要修改这里
+//    });
+    },MoreExecutors.directExecutor());
   }
 
   @Override

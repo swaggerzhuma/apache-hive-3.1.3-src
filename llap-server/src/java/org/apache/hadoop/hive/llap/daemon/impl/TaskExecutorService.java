@@ -175,7 +175,10 @@ public class TaskExecutorService extends AbstractService
     executionCompletionExecutorService = MoreExecutors.listeningDecorator(
         executionCompletionExecutorServiceRaw);
     ListenableFuture<?> future = waitQueueExecutorService.submit(new WaitQueueWorker());
-    Futures.addCallback(future, new WaitQueueWorkerCallback());
+    //更换guava版本为27.0-jre 需要修改这里
+//    Futures.addCallback(future, new WaitQueueWorkerCallback());
+    Futures.addCallback(future, new WaitQueueWorkerCallback(),MoreExecutors.directExecutor());
+
   }
 
   private LlapQueueComparatorBase createComparator(

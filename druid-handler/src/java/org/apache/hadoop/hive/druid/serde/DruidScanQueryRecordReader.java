@@ -25,9 +25,10 @@ import org.apache.hadoop.io.NullWritable;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JavaType;
-import com.google.common.collect.Iterators;
+//import com.google.common.collect.Iterators;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,8 +43,9 @@ public class DruidScanQueryRecordReader
       };
 
   private ScanResultValue current;
-
-  private Iterator<List<Object>> compactedValues = Iterators.emptyIterator();
+  //更换guava版本为27.0-jre 需要修改这里
+//  private Iterator<List<Object>> compactedValues = Iterators.emptyIterator();
+  private Iterator<List<Object>> compactedValues = Collections.emptyIterator();
 
   @Override
   protected JavaType getResultTypeDef() {

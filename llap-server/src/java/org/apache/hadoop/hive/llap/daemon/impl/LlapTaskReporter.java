@@ -128,7 +128,10 @@ public class LlapTaskReporter implements TaskReporterInterface {
         sendCounterInterval, maxEventsToGet, requestCounter, containerIdStr, initialEvent,
         fragmentRequestId, wmCounters);
     ListenableFuture<Boolean> future = heartbeatExecutor.submit(currentCallable);
-    Futures.addCallback(future, new HeartbeatCallback(errorReporter));
+    //更换guava版本为27.0-jre 需要修改这里
+//    Futures.addCallback(future, new HeartbeatCallback(errorReporter));
+    Futures.addCallback(future, new HeartbeatCallback(errorReporter),MoreExecutors.directExecutor());
+
   }
 
   /**

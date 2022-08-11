@@ -19,10 +19,8 @@
 package org.apache.hadoop.hive.ql.exec.tez;
 
 
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.SettableFuture;
+import com.google.common.util.concurrent.*;
+
 import java.io.IOException;
 import java.util.concurrent.ScheduledExecutorService;
 import javax.security.auth.login.LoginException;
@@ -128,7 +126,9 @@ public class SampleTezSessionState extends WmTezSession {
       public void onFailure(Throwable t) {
         future.setException(t);
       }
-    });
+      //更换guava版本为27.0-jre 需要修改这里
+//    });
+    }, MoreExecutors.directExecutor());
     return future;
   }
 
